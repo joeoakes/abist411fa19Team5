@@ -1,5 +1,5 @@
 # Project: App1 - Project Diamond
-# Purpose Details: To retrieve and send a JSON payload
+# Purpose Details: To retreive and send a JSON payload
 # Course: IST 411
 # Author: Team 5
 # Date Developed: 10/12/2019

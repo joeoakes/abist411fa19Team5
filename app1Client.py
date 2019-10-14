@@ -23,7 +23,7 @@ try:
 		entry['timestamp'] = datetime.datetime.utcnow()
 		entry['status'] = msg
 		log_collection.insert(entry)
-        workflowLog('Pass')
+	workflowLog('Pass')
 
 	print("Client connecting on port 8080 using SSL")
 	clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

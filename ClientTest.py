@@ -5,7 +5,7 @@ import sys, datetime
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import pprint
-class TestApp1(unittest.TestCase):
+class TestClient(unittest.TestCase):
 	def test_sample(self):
 		url='https://jsonplaceholder.typicode.com'
 		param='/posts/1/comments'

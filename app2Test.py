@@ -11,8 +11,10 @@
 # Last Date Changed:11/17/2019
 
 import unittest
+import socket, ssl
+from datetime import datetime
 
-class TestApp1(unittest.TestCase):
+class TestApp2(unittest.TestCase):
     def test_sample(self):
          print("create an INET, STREAMing socket using SSL")
          s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

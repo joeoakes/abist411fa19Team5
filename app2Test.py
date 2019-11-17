@@ -8,21 +8,27 @@
 
 # Date Developed: 10/12/2019
 
-# Last Date Changed:10/12/2019import app1, app1Client
-
-import app2, app2Client
+# Last Date Changed:11/17/2019
 
 import unittest
 
-def test_if_payload_is_recieved(self):
-        a2 = app2()
-        a2client = app2Client()
-        payload = {"message": "This is a test"}
-        a1client.c_ssl.send(payload)
-        result = a1.c_ssl.recv(157778)
-        assertTrue(result)
-
-def test_if_log_is_recieved_to_mongodb(self):
-	assertTrue(WorkFlowLog("Test"))
-
-
+class TestApp1(unittest.TestCase):
+    def test_sample(self):
+         print("create an INET, STREAMing socket using SSL")
+         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+         ssl_sock = ssl.wrap_socket(s,
+                server_side=True,
+                ssl_version=ssl.PROTOCOL_TLSv1,
+                certfile="server.crt",
+                keyfile="server.key")
+         print("bind the socket to a public host, and a well-known port 8080")
+         ssl_sock.bind(("localhost", 8080))
+         ssl_sock.listen(5)
+         print("ciphers: " + str(ssl_sock.cipher()))
+         while True:
+                print("accept connections from outside")
+                (c_ssl, address) = ssl_sock.accept()
+                jsonPayload = c_ssl.recv(157778)
+                print("json payload received: ", jsonPayload)
+if __name__ == '__main__':
+    unittest.main()

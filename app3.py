@@ -1,4 +1,4 @@
-import sys, pysftp, paramiko, app2Phase2, hashlib, hmac, base64
+import sys, pysftp, paramiko, app2Phase2, hashlib, hmac, base64, app1Phase2, zlib, gzip
 from email.mime.text import MIMEText
 import smtplib
 import Pyro4
@@ -30,19 +30,25 @@ try:
 		payload.close()
 		key = "5411"
 		key = bytes(key, 'UTF-8')
-		signature1 = hmac.new(key, data, hashlib.sha256).hexdigest()
-		print("Signature1 (sha256): ", signature1)
-		sig1 = signature1.encode('utf8')
-		signature2 = base64.encodestring(sig1)
-		print("Signature2 (sha256): ", signature2)
+		signature  = hmac.new(key, data, hashlib.sha256).hexdigest()
+		print("Signature1 (sha256): ", signature)
+		sig1 = signature.encode('utf8')
+		signature_ = base64.encodestring(sig1)
+		print("Signature2 (sha256): ", signature)
 		print()
 		sig3 = input("Enter app2 sha256 signature: ")
 		signature4 = sig3.encode('utf-8')
 		signature5 = base64.encodestring(signature4)
 		print(signature5)
-		compare = hmac.compare_digest(signature2, signature5)
+		compare = hmac.compare_digest(signature_, signature5)
 		print(compare)
 		payloadN = data.decode('utf-8')
+		app1Phase2.log("Pass")
+		def compressPayload(data):
+			payloadComp = gzip.compress(data)
+			return payloadComp
+		compressPayload(data)
+		print("JSON Payload Compressed")
 		def sendEmail(payload,subject, fromAddress, toAddress):
 			email_msg=payload
 			msg = MIMEText(email_msg)
@@ -58,5 +64,5 @@ try:
 		print("Ready. Object uri = ", uri)
 		daemon.requestLoop()
 except:
-    print("Log exception 2:", sys.exc_info()[0])
-
+	print("Log exception 2:", sys.exc_info()[0])
+	app1Phase2.log("Fail")

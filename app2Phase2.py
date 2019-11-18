@@ -28,24 +28,24 @@ try:
 		print("json payload received: ", jsonPayload)
 		key = "5411"
 		key=bytes(key, 'UTF-8')
-		signature1 = hmac.new(key, jsonPayload, hashlib.sha256).hexdigest()
-		print("Signature1 (sha256): ", signature1)
-		sig1 = signature1.encode('utf8')
-		signature2 = base64.encodestring(sig1)
-		print(type(signature2))
-#		print("Signature2 (sha256): ", signature2)
 		print()
 		with open('jsonPayload5.json', 'w') as outFile:
 			jsonObj = outFile.write(json.dumps(jsonPayload.decode('utf8')))
 		with open('jsonPayload5.json', 'r') as json_data:
 			pyObj = json.load(json_data)
-			print(repr(pyObj))
+#			print(repr(pyObj))
+		payload = open('jsonPayload5.json', 'rb')
+		data = payload.read()
+		payload.close()
+		signature1 = hmac.new(key, data, hashlib.sha256).hexdigest()
+		sig1 = signature1.encode('utf8')
+		signature2 = base64.encodestring(sig1)
 		with pysftp.Connection(**cinfo) as sftp:
 			try:
 				print("putting jsonPayload5.json file")
 				sftp.put('/home/NaharaMelodonascimentodemou/abist411fa19Team5/jsonPayload5.json')
-				print("Signature2 (sha256): ", signature2)
 				print("Signature1 (sha256): ", signature1)
+				print("Signature2 (sha256): ", signature2)
 			except:
 				print("Log exception 2:", sys.exc_info()[0])
 except Exception as e:

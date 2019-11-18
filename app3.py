@@ -11,10 +11,10 @@ fromAddress = 'nkm5334@psu.edu'
 subject = 'JSON Payload'
 toAddress =['nkm5334@psu.edu', 'asw5310@psu.edu', 'tpl5148@psu.edu', 'cvp5380@psu.edu', 'bmy5076@psu.edu']
 
-@Pyro.expose
+@Pyro4.expose
 class GreetingMaker(object):
 	def get_fortune(self, name):
-		payload = open("jsonPayload5", 'rb')
+		payload = open("jsonPayload5.json", 'rb')
 		data = payload.read()
 		return data
 

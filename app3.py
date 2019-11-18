@@ -1,6 +1,7 @@
 import sys, pysftp, paramiko, app2Phase2, hashlib, hmac, base64
 from email.mime.text import MIMEText
 import smtplib
+import Pyro4
 
 cnopts = pysftp.CnOpts()
 cnopts.hostkeys = None
@@ -9,6 +10,13 @@ cinfo = {'cnopts':cnopts, 'host':'oz-ist-linux-oakes', 'username':'ftpuser', 'pa
 fromAddress = 'nkm5334@psu.edu'
 subject = 'JSON Payload'
 toAddress =['nkm5334@psu.edu', 'asw5310@psu.edu', 'tpl5148@psu.edu', 'cvp5380@psu.edu', 'bmy5076@psu.edu']
+
+@Pyro.expose
+class GreetingMaker(object):
+	def get_fortune(self, name):
+		payload = open("jsonPayload5", 'rb')
+		data = payload.read()
+		return data
 
 try:
 	with pysftp.Connection(**cinfo) as sftp:
@@ -45,6 +53,10 @@ try:
 			s = smtplib.SMTP_SSL('authsmtp.psu.edu', 465)
 			s.sendmail(fromAddress, toAddress, msg.as_string())
 		sendEmail(payloadN, subject, fromAddress, toAddress)
+		daemon = Pyro4.Daemon()
+		uri = daemon.register(GreetingMaker)
+		print("Ready. Object uri = ", uri)
+		daemon.requestLoop()
 except:
     print("Log exception 2:", sys.exc_info()[0])
 

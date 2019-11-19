@@ -13,18 +13,18 @@ param='/posts/1/comments'
 try:
 	print('Url:', url+param)
 	response=urllib.request.urlopen(url+param)
-	client = MongoClient()
-	db = client.logs
-	log_collection = db.log
-	log_collection.ensure_index([("timestamp", ASCENDING)])
+	client = MongoClient('localhost', 27017)
+	db = client.logTeam5
+	collection = db.logs
+	collection.ensure_index([("timestamp", ASCENDING)])
 	payload=response.read()
-	def log(msg):
+	def workflowLog(msg):
 		"""Workflow Action Status"""
 		entry = {}
 		entry['timestamp'] = datetime.datetime.utcnow()
 		entry['status'] = msg
-		log_collection.insert(entry)
-	log('Pass')
+		collection.insert(entry)
+	workflowLog('Pass')
 
 	print("Client connecting on port 8080 using SSL")
 	clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

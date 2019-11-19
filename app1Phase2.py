@@ -24,7 +24,6 @@ try:
 		entry['timestamp'] = datetime.datetime.utcnow()
 		entry['status'] = msg
 		collection.insert(entry)
-	workflowLog('Pass')
 
 	print("Client connecting on port 8080 using SSL")
 	clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,11 +32,12 @@ try:
 		cert_reqs=ssl.CERT_REQUIRED)
 	c_ssl.connect(('localhost', 8080))
 	c_ssl.send(payload)
+	workflowLog("Connection to app1 established")
 except Exception as e:
 	print(e)
 	print(c_ssl.cipher())
 	c_ssl.close()
-	log('Fail')
+	workflowLog('Fail')
 
 
 with open('curlApp3.json', 'w') as outFile:

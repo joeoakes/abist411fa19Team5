@@ -7,6 +7,7 @@
 import socket, ssl, pysftp, sys, hashlib, hmac, base64, json
 from datetime import datetime
 from app1Phase2 import workflowLog
+
 cnopts = pysftp.CnOpts()
 cnopts.hostkeys = None
 cinfo = {'cnopts':cnopts, 'host':'oz-ist-linux-oakes', 'username':'ftpuser', 'password':'test1234', 'port':100}
@@ -30,7 +31,7 @@ try:
 		key = "5411"
 		key=bytes(key, 'UTF-8')
 		print()
-		app1Phase2.workflowLog("Pass Connection")
+		workflowLog("Pass Connection")
 		with open('jsonPayload5.json', 'w') as outFile:
 			jsonObj = outFile.write(json.dumps(jsonPayload.decode('utf8')))
 		with open('jsonPayload5.json', 'r') as json_data:
@@ -48,11 +49,11 @@ try:
 				sftp.put('/home/NaharaMelodonascimentodemou/abist411fa19Team5/jsonPayload5.json')
 				print("Signature1 (sha256): ", signature1)
 				print("Signature2 (sha256): ", signature2)
-				app1Phase2.workflowLog("Pass")
+				workflowLog("Pass")
 			except:
 				print("Log exception 2:", sys.exc_info()[0])
-				app1Phase2.workflowLog("Fail")
+#				app1Phase2.workflowLog("Fail")
 except Exception as e:
         print(e)
         ssl_sock.close()
-	app1Phase2.workflowLog('Fail')
+#	app1Phase2.workflowLog('Fail')

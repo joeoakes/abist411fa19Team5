@@ -41,14 +41,17 @@ try:
 		signature4 = sig3.encode('utf-8')
 		signature5 = base64.encodestring(signature4)
 		print(signature5)
-		compare = hmac.compare_digest(signature_, signature5)
-		print(compare)
+#		app2Phase2.verifyHash(app2Phase2.signature2, signature_)
+		compare = hmac.compare_digest(signature5, signature_)
+		print("Hash Verified:", compare)
+		app1Phase2.workflowLog("Hash Verified")
 		payloadN = data.decode('utf-8')
 		app1Phase2.workflowLog("Pass")
 		def compressPayload(data):
 			payloadComp = gzip.compress(data)
 			return payloadComp
 		compressPayload(data)
+		app1Phase2.workflowLog("payload compressed")
 		print("JSON Payload Compressed")
 		def sendEmail(payload,subject, fromAddress, toAddress):
 			email_msg=payload

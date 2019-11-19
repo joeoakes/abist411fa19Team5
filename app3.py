@@ -1,5 +1,6 @@
 import sys, pysftp, paramiko, app2Phase2, hashlib, hmac, base64, app1Phase2, zlib, gzip
 from email.mime.text import MIMEText
+from app1Phase2  import  workflowLog
 import smtplib
 import Pyro4
 
@@ -43,7 +44,7 @@ try:
 		compare = hmac.compare_digest(signature_, signature5)
 		print(compare)
 		payloadN = data.decode('utf-8')
-		app1Phase2.log("Pass")
+		app1Phase2.workflowLog("Pass")
 		def compressPayload(data):
 			payloadComp = gzip.compress(data)
 			return payloadComp
@@ -59,10 +60,11 @@ try:
 			s = smtplib.SMTP_SSL('authsmtp.psu.edu', 465)
 			s.sendmail(fromAddress, toAddress, msg.as_string())
 		sendEmail(payloadN, subject, fromAddress, toAddress)
+		app1Phase2.workflowLog("email sent")
 		daemon = Pyro4.Daemon()
 		uri = daemon.register(GreetingMaker)
 		print("Ready. Object uri = ", uri)
 		daemon.requestLoop()
 except:
 	print("Log exception 2:", sys.exc_info()[0])
-	app1Phase2.log("Fail")
+	app1Phase2.workflowLog("Fail")

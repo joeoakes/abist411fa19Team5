@@ -1,5 +1,6 @@
 import Pyro4
 from app5 import workflowLog
+from Crypto.Cipher import AES
 
 import pika
 
@@ -11,7 +12,7 @@ print(greeting_maker.get_fortune(name))
 workflowLog('Pass')
 
 
-""" Encryot a json payload using a 32-byte key """
+""" Encrypt a json payload using a 32-byte key """
 def encryptPayload(data, cipher):
 	plaintext = data
 	print(plaintext)

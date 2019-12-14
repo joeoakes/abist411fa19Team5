@@ -44,6 +44,34 @@ try:
 	channel.basic_consume(queue = 'ist411', on_message_callback = callback, auto_ack = True)
 	print(' [*] Waiting for messages. To exit press CTRL + C')
 	channel.start_consuming()
+
+	def decryptPayload(data, cipher):
+
+        decrypted = cipher.decrypt(data)
+
+        return decrypted
+
+    if option == "1":
+
+        try:
+
+            print("Decrypted Payload: ", decryptPayload(data, cipher))
+
+            decryptPayload(data, cipher)
+
+            workflowLog("Pass Decryption")
+
+        except Exception as e:
+
+            print(e)
+
+            workflowLog('Fail')
+
+    else:
+
+        break;
+
+    print("Reading Payload")
 except Exception as e:
 	print(e)
 	print(c_ssl.cipher())

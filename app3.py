@@ -1,6 +1,8 @@
-import sys, pysftp, paramiko, app2Phase2, hashlib, hmac, base64, app1Phase2, zlib, gzip
+
+""" App3 """
+import sys, pysftp, paramiko, hashlib, hmac, base64, zlib, gzip
 from email.mime.text import MIMEText
-import app5
+from  app5 import workflowLog
 import smtplib
 import Pyro4
 
@@ -61,9 +63,9 @@ try:
 			payloadComp = gzip.compress(data)
 			return payloadComp
 		compressPayload(data)
-		app1Phase2.workflowLog("payload compressed")
+		workflowLog("payload compressed")
 		print("JSON Payload Compressed")
-		""" Send an email message containg a payload """
+		""" Send an email message contaning a payload """
 		def sendEmail(payload,subject, fromAddress, toAddress):
 			email_msg=payload
 			msg = MIMEText(email_msg)
@@ -74,11 +76,11 @@ try:
 			s = smtplib.SMTP_SSL('authsmtp.psu.edu', 465)
 			s.sendmail(fromAddress, toAddress, msg.as_string())
 		sendEmail(payloadN, subject, fromAddress, toAddress)
-		app5.workflowLog("email sent")
+		workflowLog("email sent")
 		daemon = Pyro4.Daemon()
 		uri = daemon.register(GreetingMaker)
 		print("Ready. Object uri = ", uri)
 		daemon.requestLoop()
 except:
 	print("Log exception 2:", sys.exc_info()[0])
-	app5.workflowLog("Fail")
+	workflowLog("Fail")

@@ -46,32 +46,18 @@ try:
 	channel.start_consuming()
 
 	def decryptPayload(data, cipher):
+		decrypted = cipher.decrypt(data)
+		return decrypted
 
-        decrypted = cipher.decrypt(data)
-
-        return decrypted
-
-    if option == "1":
-
-        try:
-
-            print("Decrypted Payload: ", decryptPayload(data, cipher))
-
-            decryptPayload(data, cipher)
-
-            workflowLog("Pass Decryption")
-
-        except Exception as e:
-
-            print(e)
-
-            workflowLog('Fail')
-
-    else:
-
-        break;
-
-    print("Reading Payload")
+	if option == "1":
+		try:
+			print("Decrypted Payload: ", decryptPayload(data, cipher))
+			decryptPayload(data, cipher)
+			workflowLog("Pass Decryption")
+		except Exception as e:
+			print(e)
+			workflowLog('Fail')
+	print("Reading Payload")
 except Exception as e:
 	print(e)
 	print(c_ssl.cipher())

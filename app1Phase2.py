@@ -5,7 +5,7 @@ import sys, datetime
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import pprint
-
+import pika
 
 url='https://jsonplaceholder.typicode.com'
 param='/posts/1/comments'
@@ -33,6 +33,17 @@ try:
 	c_ssl.connect(('localhost', 8080))
 	c_ssl.send(payload)
 	workflowLog("Connection to app1 established")
+
+	print("Connection to localhost")
+	connection = pika.BlockingConnection(pika.ConnectionParameters(host = 'localhost'))
+	channel = connection.channel()
+	print("Queue ist411 created")
+	channel.queue_declare(queue = 'ist411')
+	def callback(ch, method, properties, body):
+		print("[x] Recieved %r" % body)
+	channel.basic_consume(queue = 'ist411', on_message_callback = callback, auto_ack = True)
+	print(' [*] Waiting for messages. To exit press CTRL + C')
+	channel.start_consuming()
 except Exception as e:
 	print(e)
 	print(c_ssl.cipher())

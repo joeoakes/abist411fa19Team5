@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 import requests
 import pytest
-=======
+#=======
 """ App1 Project Diamond """
 
->>>>>>> 0f1b82075049bee85c4d365fc5e73493c64c7d00
+#>>>>>>> 0f1b82075049bee85c4d365fc5e73493c64c7d00
 import socket, ssl, urllib.request, json
 from app5 import workflowLog
 from pymongo import ASCENDING
@@ -19,7 +18,6 @@ from Crypto.Cipher import AES
 url='https://jsonplaceholder.typicode.com'
 param='/posts/1/comments'
 
-<<<<<<< HEAD
 def f(x):
 	try:
 		print('Url:', url+param)
@@ -55,7 +53,7 @@ def f(x):
 def test_benchmark(benchmark):
 	assert f(x) == True
 
-=======
+#=======
 try:
 	print('Url:', url+param)
 	""" get payload from the given url """
@@ -109,7 +107,7 @@ except Exception as e:
 	workflowLog('Fail')
 
 """ Save json payload to a file in the Linux System """
->>>>>>> 0f1b82075049bee85c4d365fc5e73493c64c7d00
+#>>>>>>> 0f1b82075049bee85c4d365fc5e73493c64c7d00
 with open('curlApp3.json', 'w') as outFile:
 	jsonObj = outFile.write(json.dumps(payload.decode('utf8')))
 with open('curlApp3.json', 'r') as json_data:
